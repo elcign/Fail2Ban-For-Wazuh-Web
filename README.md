@@ -1,7 +1,7 @@
 # Fail2Ban-For-Wazuh-Web
 A simple custom Fail2Ban filter for the Wazuh website.
 
-I spent about an hour tracking down some log that would work, and it isn't pretty, but hopefully it will help someone else out there.  It was last tested on Wazuh 4.6.0.
+I spent some time tracking down some log that would work, and it isn't pretty, but hopefully it will help someone else out there.  It was last tested on Wazuh 4.6.0.
 
 On RHEL-based OSes I was able to add this to jail.local near the bottom:
 ```
