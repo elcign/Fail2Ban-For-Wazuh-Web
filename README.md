@@ -13,7 +13,7 @@ filter = wazuh
 port = http,https
 logpath = /var/log/messages
 ```
-You'll possibly need to modify the logpath for whatever is doing the general syslogs, or enable writing to that output in addition to journal.
+You'll possibly need to modify the logpath for whatever is doing the general syslogs, and you may have to enable writing to that output in addition to journal.
 
 And then, to make the filter:
 ```
