@@ -1,29 +1,37 @@
 # Fail2Ban-For-Wazuh-Web
-A simple custom Fail2Ban filter for the Wazuh website.
+A simple Fail2Ban filter for Wazuh web management when using journald.
 
-I spent some time tracking down some log that would work, and it isn't pretty, but hopefully it will help someone else out there.  It was last tested on Wazuh 4.8.0.
+This was last tested on Wazuh 4.9.1.
 
 First, install Fail2ban.
 
-Then, on Debian I was able to add this to /etc/fail2ban/jail.local near the bottom:
+This probably needs to be somewhere in the default section of /etc/fail2ban/jail.local:
+```
+[DEFAULT]
+backend = systemd
+```
+
+Then, I was able to add this near the bottom:
 ```
 [wazuh]
-enabled	= true
+enabled = true
+port = https,http
 filter = wazuh
-port = http,https
-logpath = /var/log/messages
 ```
-You'll possibly need to modify the logpath for whatever is doing the general syslogs, and you may have to enable writing to that output in addition to journal.
 
 And then, to make the filter:
 ```
 sudo nano /etc/fail2ban/filter.d/wazuh.conf
 ```
 
-Filter contents:
+Filter contents (not sure if INCLUDES is required):
 ```
+[INCLUDES]
+before = common.conf
+
 [Definition]
 failregex = ^.*opensearch-dashboards.*"remoteAddress":"<HOST>".*POST \/auth\/login 401.*$
+journalmatch = _SYSTEMD_UNIT=wazuh-dashboard.service
 ```
 
 Followed by something like this for good measure:
